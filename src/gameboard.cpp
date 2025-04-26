@@ -10,10 +10,37 @@ GameBoard::GameBoard(int rows, int cols) {
 }
 
 void GameBoard::dump() {
-  for (vector<int>& row : this->board) {
+  for (vector<int>& row : board) {
     for (int& element : row) {
       cout << element << " ";
     }
     cout << endl;
+  }
+}
+
+int GameBoard::operator()(int i, int j)
+{
+	return board[i][j];
+}
+
+void GameBoard::fall(int istart, int j) {
+  int i = istart;
+  int n = board.size();
+
+  while (i < n - 1 && board[i + 1][j] == 0) {
+    swap(board[i][j], board[i + 1][j]);
+    i++;
+  }
+}
+
+void GameBoard::gravity() {
+	int n = board.size();
+  int m = board[0].size();
+
+  // going column by column
+  for(int j = 0; j < m; j++) {
+    for (int i = n - 1; i >= 0; i--) {
+      fall(i, j);
+    }
   }
 }

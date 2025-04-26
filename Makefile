@@ -22,4 +22,4 @@ gameboard.o: $(GAMEBOARD_SRC)
 
 # Clean up
 clean:
-	rm -f $(EXEC) $(GAMEBOARD_OBJ)
+	rm -f $(EXEC) *.o
