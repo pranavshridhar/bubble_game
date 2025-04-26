@@ -7,6 +7,11 @@
 
 GameBoard::GameBoard(int rows, int cols) {
   board = vector<vector<int>>(rows, vector<int>(cols));
+	for(vector<int>& row : board) {
+    for(int& element : row) {
+      element = rand() % 4;
+    }
+  }
 }
 
 void GameBoard::dump() {
