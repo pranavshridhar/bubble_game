@@ -23,8 +23,7 @@ void GameBoard::dump() {
   }
 }
 
-int GameBoard::operator()(int i, int j)
-{
+int& GameBoard::operator()(int i, int j) {
 	return board[i][j];
 }
 
@@ -48,4 +47,8 @@ void GameBoard::gravity() {
       fall(i, j);
     }
   }
+}
+
+bool GameBoard::selectCell(int i, int j) {
+  return false;
 }
