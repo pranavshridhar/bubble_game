@@ -23,10 +23,6 @@ void GameBoard::dump() {
   }
 }
 
-int& GameBoard::operator()(int i, int j) {
-	return board[i][j];
-}
-
 void GameBoard::fall(int istart, int j) {
   int i = istart;
   int n = board.size();
