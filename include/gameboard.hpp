@@ -5,12 +5,6 @@ using namespace std; // FIXME: Take this away in later builds
 class GameBoard {
 private:
 
-	struct Position {
-		int i;
-		int j;
-		Position(int rows, int cols) : i(rows), j(cols) {}
-	};
-
 	int pop_criteria;
 	int rows;
 	int columns;
@@ -18,6 +12,7 @@ private:
 
 	void fall(int istart, int j);
 	bool validMove(int i, int j);
+	bool countAdjacent(int i, int j, int color, int count, int criteria);
 
 public:
 

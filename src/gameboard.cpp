@@ -19,7 +19,7 @@ void GameBoard::fall(int istart, int j) {
 	}
 }
 
-bool countAdjacent(int i, int j, int color, int count, int limit) {
+bool GameBoard::countAdjacent(int i, int j, int color, int count, int criteria) {
 
 }
 
@@ -30,12 +30,19 @@ bool GameBoard::validMove(int i, int j) {
 	return false;
 }
 
+bool GameBoard::selectCell(int i, int j) {
+	if (!validMove(i, j)) {
+		return false;
+	}
+	return true;
+}
+
 // PUBLIC FUNCTIONS
 /* ------------------- */
 GameBoard::GameBoard(int rows, int cols) {
 	this->rows = rows;
 	this->columns = cols;
-
+	srand(time(NULL));
 	board = vector<vector<int>>(rows, vector<int>(cols));
 	for(vector<int>& row : board) {
 		for(int& element : row) {
@@ -63,11 +70,4 @@ void GameBoard::gravity() {
 			fall(i, j);
 		}
 	}
-}
-
-bool GameBoard::selectCell(int i, int j) {
-	if (!validMove(i, j)) {
-		return false;
-	}
-	return true;
 }

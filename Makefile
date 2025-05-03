@@ -19,6 +19,9 @@ GAMEBOARD_OBJ = gameboard.o
 # Executable name
 EXEC = bubblepop
 
+run: $(EXEC)
+	./$(EXEC)
+
 # Default target
 all: $(EXEC)
 
