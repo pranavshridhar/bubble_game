@@ -65,7 +65,7 @@ $(TEST_EXEC): $(TEST_OBJ) $(GAMEBOARD_OBJ) $(GTEST_LIBS)
 
 # Clean up
 clean:
-	rm -f $(EXEC) *.o
+	rm -f $(EXEC) $(TEST_EXEC) *.o
 
 clean-tests:
 	rm -f $(TEST_EXEC) test_gameboard.o

@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <numeric>
+
 
 #include "gameboard.hpp"
 
@@ -19,9 +21,7 @@ void GameBoard::fall(int istart, int j) {
 	}
 }
 
-bool GameBoard::countAdjacent(int i, int j, int color, int count, int criteria) {
 
-}
 
 
 // TODO: Implement me
@@ -40,6 +40,7 @@ bool GameBoard::selectCell(int i, int j) {
 // PUBLIC FUNCTIONS
 /* ------------------- */
 GameBoard::GameBoard(int rows, int cols) {
+	pop_criteria = 3; // FIXME: Just for starters. Change later on.
 	this->rows = rows;
 	this->columns = cols;
 	srand(time(NULL));
@@ -70,4 +71,37 @@ void GameBoard::gravity() {
 			fall(i, j);
 		}
 	}
+}
+
+void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target) {
+
+	// Base cases: in this EXACT order to avoid segfault
+	if ((i < 0 || i >= columns) || (j < 0 || j >= rows) ) return; // current position is out of bounds
+	if (count >= pop_criteria) return; // we have all we need
+	if (board[i][j] != target) return; // this is not a cell to pop
+	if (map[i][j] == true) return; // if we have already visited cell
+
+	// mark this cell as visited
+	map[i][j] = true;
+	count++;
+
+	_cell_counter(i+1, j, map, count, target);
+	_cell_counter(i-1, j, map, count, target);
+	_cell_counter(i, j+1, map, count, target);
+	_cell_counter(i, j-1, map, count, target);
+
+}
+
+
+bool GameBoard::validMove(int i, int j, int target) {
+	// make the map
+	vector<vector<bool>> visit_map (
+		rows, vector<bool>(columns, false)
+	);
+
+	int count = 0;
+
+	_cell_counter(i, j, visit_map, count, target);
+
+	return count >= pop_criteria;
 }

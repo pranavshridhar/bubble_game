@@ -12,7 +12,7 @@ private:
 
 	void fall(int istart, int j);
 	bool validMove(int i, int j);
-	bool countAdjacent(int i, int j, int color, int count, int criteria);
+	void _cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target);
 
 public:
 
@@ -30,5 +30,7 @@ public:
 	int& operator()(int i, int j) {
 		return board[i][j];
 	}
+
+	bool validMove(int i, int j, int target);
 
 };
