@@ -2,3 +2,4 @@
 bubblepop
 .vscode
 *.out
+run_tests

@@ -21,9 +21,6 @@ void GameBoard::fall(int istart, int j) {
 	}
 }
 
-
-
-
 // TODO: Implement me
 bool GameBoard::validMove(int i, int j) {
 	int count = 0;
@@ -94,7 +91,6 @@ void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& coun
 
 
 bool GameBoard::validMove(int i, int j, int target) {
-	// make the map
 	vector<vector<bool>> visit_map (
 		rows, vector<bool>(columns, false)
 	);
