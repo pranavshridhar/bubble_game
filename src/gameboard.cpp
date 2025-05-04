@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <numeric>
 
-
 #include "gameboard.hpp"
 
 
@@ -36,15 +35,16 @@ bool GameBoard::selectCell(int i, int j) {
 
 // PUBLIC FUNCTIONS
 /* ------------------- */
-GameBoard::GameBoard(int rows, int cols) {
+GameBoard::GameBoard(int rows, int cols)
+ : GameBoard(rows, cols, time(nullptr)) {}
+
+GameBoard::GameBoard(int rows, int cols, unsigned int seed) : rows(rows), columns(cols) {
 	pop_criteria = 3; // FIXME: Just for starters. Change later on.
-	this->rows = rows;
-	this->columns = cols;
-	srand(time(NULL));
+	srand(seed);
 	board = vector<vector<int>>(rows, vector<int>(cols));
 	for(vector<int>& row : board) {
 		for(int& element : row) {
-			element = rand() % 4;
+			element = (rand() % 4) + 1;
 		}
 	}
 }

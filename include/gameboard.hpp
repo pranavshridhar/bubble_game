@@ -19,6 +19,8 @@ public:
 	// Constructs a rows x cols gameboard, all with random values
 	GameBoard(int rows, int cols);
 
+	GameBoard(int rows, int cols, unsigned int seed);
+
 	// Prints the whole gameboard to the screen
 	void dump();
 
