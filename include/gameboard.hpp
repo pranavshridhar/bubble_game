@@ -11,7 +11,7 @@ private:
 	vector<vector<int>> board;
 
 	void fall(int istart, int j);
-	bool validMove(int i, int j);
+	// bool validMove(int i, int j);
 	void _cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target);
 
 public:
@@ -33,6 +33,6 @@ public:
 		return board[i][j];
 	}
 
-	bool validMove(int i, int j, int target);
+	bool validMove(int i, int j);
 
 };

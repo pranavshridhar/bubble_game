@@ -20,19 +20,6 @@ void GameBoard::fall(int istart, int j) {
 	}
 }
 
-// TODO: Implement me
-bool GameBoard::validMove(int i, int j) {
-	int count = 0;
-	return false;
-}
-
-bool GameBoard::selectCell(int i, int j) {
-	if (!validMove(i, j)) {
-		return false;
-	}
-	return true;
-}
-
 // PUBLIC FUNCTIONS
 /* ------------------- */
 GameBoard::GameBoard(int rows, int cols)
@@ -73,7 +60,7 @@ void GameBoard::gravity() {
 void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target) {
 
 	// Base cases: in this EXACT order to avoid segfault
-	if ((i < 0 || i >= columns) || (j < 0 || j >= rows) ) return; // current position is out of bounds
+	if ((i < 0 || i >= rows) || (j < 0 || j >= columns) ) return; // current position is out of bounds
 	if (count >= pop_criteria) return; // we have all we need
 	if (board[i][j] != target) return; // this is not a cell to pop
 	if (map[i][j] == true) return; // if we have already visited cell
@@ -90,7 +77,8 @@ void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& coun
 }
 
 
-bool GameBoard::validMove(int i, int j, int target) {
+bool GameBoard::validMove(int i, int j) {
+	int target = board[i][j];
 	vector<vector<bool>> visit_map (
 		rows, vector<bool>(columns, false)
 	);

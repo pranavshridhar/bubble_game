@@ -1,72 +1,76 @@
 # Detect platform
-UNAME_S := $(shell uname -s)
+OS := $(shell uname -s)
 
-# Choose the compiler
-ifeq ($(UNAME_S),Darwin)  # macOS
+# Compiler selection
+ifeq ($(OS),Darwin)
     CXX := clang++
-else                       # Linux, etc.
+else
     CXX := g++
 endif
 
 # Compiler flags
 CXXFLAGS = -std=c++23 -Wall -Iinclude
 
-# Source and object files
-MAIN = main.cpp
+# Main program sources
+MAIN_SRC = main.cpp
 GAMEBOARD_SRC = src/gameboard.cpp
 GAMEBOARD_OBJ = gameboard.o
-
-# Executable name
 EXEC = bubblepop
 
-run: $(EXEC)
-	./$(EXEC)
+# Google Test config
+GTEST_DIR = lib/googletest
+GTEST_BUILD = $(GTEST_DIR)/build
+GTEST_INCLUDE = -I$(GTEST_DIR)/googletest/include
+GTEST_LIBS = $(GTEST_BUILD)/lib/libgtest.a $(GTEST_BUILD)/lib/libgtest_main.a
 
-# Default target
+# Test sources
+TEST_SRCS := $(wildcard tests/*.cpp)
+TEST_OBJS := $(TEST_SRCS:.cpp=.o)
+TEST_BIN = test
+
+# ==============================
+# Build Targets
+# ==============================
+
+# Default build
 all: $(EXEC)
 
-# Link main with GameBoard.o
-$(EXEC): $(GAMEBOARD_OBJ) $(MAIN)
-	$(CXX) $(CXXFLAGS) $(MAIN) $(GAMEBOARD_OBJ) -o $(EXEC)
+# Build main program
+$(EXEC): $(GAMEBOARD_OBJ) $(MAIN_SRC)
+	$(CXX) $(CXXFLAGS) $(MAIN_SRC) $(GAMEBOARD_OBJ) -o $(EXEC)
 
-# Compile GameBoard separately
-gameboard.o: $(GAMEBOARD_SRC)
-	$(CXX) $(CXXFLAGS) -c $(GAMEBOARD_SRC) -o $(GAMEBOARD_OBJ)
+# Compile GameBoard
+$(GAMEBOARD_OBJ): $(GAMEBOARD_SRC)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # ==============================
-# Google Test Integration
+# Test Build and Run
 # ==============================
 
-# Google Test paths
-GTEST_DIR = lib/googletest
-GTEST_BUILD_DIR = $(GTEST_DIR)/build
-GTEST_INCLUDE = -I$(GTEST_DIR)/googletest/include
-GTEST_LIBS = $(GTEST_BUILD_DIR)/lib/libgtest.a $(GTEST_BUILD_DIR)/lib/libgtest_main.a
+# Run tests (build GTest if needed)
+test: $(TEST_BIN)
+	./$(TEST_BIN)
 
-# Test files
-TEST_SRC = test/test_gameboard.cpp
-TEST_OBJ = test_gameboard.o
-TEST_EXEC = run_tests
-
-# Build Google Test if needed
-$(GTEST_LIBS):
-	mkdir -p $(GTEST_BUILD_DIR)
-	cd $(GTEST_BUILD_DIR) && cmake .. && make
+# Build test binary
+$(TEST_BIN): $(TEST_OBJS) $(OBJ_FILES) $(GTEST_LIBS)
+	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) $^ -o $@ -pthread
 
 # Compile test source
-test_gameboard.o: $(TEST_SRC)
+$(TEST_OBJ): $(TEST_SRC)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -c $< -o $@
 
-# Build test binary (reuses gameboard.o)
-test: $(TEST_EXEC)
+# Build GoogleTest libs
+$(GTEST_LIBS):
+	mkdir -p $(GTEST_BUILD)
+	cd $(GTEST_BUILD) && cmake .. && make
 
-$(TEST_EXEC): $(TEST_OBJ) $(GAMEBOARD_OBJ) $(GTEST_LIBS)
-	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -I$(GTEST_DIR) $^ -o $@ -pthread
+# ==============================
+# Clean Targets
+# ==============================
 
-# Clean up
 clean:
-	rm -f $(EXEC) $(TEST_EXEC) *.o
+	rm -f $(EXEC) $(TEST_BIN) *.o
 
-clean-tests:
-	rm -f $(TEST_EXEC) test_gameboard.o
-	rm -rf $(GTEST_BUILD_DIR)
+clean-all:
+	rm -f $(EXEC) $(TEST_BIN) *.o
+	rm -rf $(GTEST_BUILD)

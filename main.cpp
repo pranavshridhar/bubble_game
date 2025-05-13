@@ -6,9 +6,15 @@ using namespace std;
 
 int main() {
 
-	GameBoard board(7, 10);
+	GameBoard board(7, 10, 1746386351);
 	cout << "------ GENERATED BOARD ------" << '\n';
 	board.dump();
+	cout << endl;
+
+	cout << "Is i=6 and i=3 a valid move?" << endl;
+	if (board.validMove(6, 3)) {
+		cout << "Yes it is!" << endl;
+	}
 	cout << endl;
 
 	board.gravity();
