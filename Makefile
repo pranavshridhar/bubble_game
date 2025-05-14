@@ -1,65 +1,88 @@
-# Detect platform
+# ==============================
+# Platform & Compiler Selection
+# ==============================
 OS := $(shell uname -s)
+CXX := $(if $(filter Darwin,$(OS)),clang++,g++)
 
-# Compiler selection
-ifeq ($(OS),Darwin)
-    CXX := clang++
-else
-    CXX := g++
-endif
-
-# Compiler flags
 CXXFLAGS = -std=c++23 -Wall -Iinclude
 
-# Main program sources
-MAIN_SRC = main.cpp
-GAMEBOARD_SRC = src/gameboard.cpp
-GAMEBOARD_OBJ = gameboard.o
-EXEC = bubblepop
+# ==============================
+# Directories
+# ==============================
 
-# Google Test config
-GTEST_DIR = lib/googletest
-GTEST_BUILD = $(GTEST_DIR)/build
-GTEST_INCLUDE = -I$(GTEST_DIR)/googletest/include
-GTEST_LIBS = $(GTEST_BUILD)/lib/libgtest.a $(GTEST_BUILD)/lib/libgtest_main.a
+SRC_DIR := src
+TEST_DIR := tests
+BUILD_DIR := build
 
-# Test sources
-TEST_SRCS := $(wildcard tests/*.cpp)
-TEST_OBJS := $(TEST_SRCS:.cpp=.o)
-TEST_BIN = test
+# ==============================
+# Source & Object Files
+# ==============================
+
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
+
+MAIN_FILE := main.cpp
+EXEC := bubblepop
+
+# ==============================
+# GoogleTest Configuration
+# ==============================
+
+GTEST_DIR     := lib/googletest
+GTEST_BUILD   := $(GTEST_DIR)/build
+GTEST_INCLUDE := -I$(GTEST_DIR)/googletest/include
+GTEST_LIBS    := $(GTEST_BUILD)/lib/libgtest.a $(GTEST_BUILD)/lib/libgtest_main.a
+
+# ==============================
+# Test Sources
+# ==============================
+
+TEST_SRCS := $(wildcard $(TEST_DIR)/*.cpp)
+TEST_OBJS := $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/test_%.o,$(TEST_SRCS))
+TEST_BIN := test_runner
 
 # ==============================
 # Build Targets
 # ==============================
 
+.PHONY: all build-objects exec test gtest clean clean-all
+
 # Default build
-all: $(EXEC)
+all: exec
 
-# Build main program
-$(EXEC): $(GAMEBOARD_OBJ) $(MAIN_SRC)
-	$(CXX) $(CXXFLAGS) $(MAIN_SRC) $(GAMEBOARD_OBJ) -o $(EXEC)
+# Build object files from src/
+build-objects: $(OBJ_FILES)
 
-# Compile GameBoard
-$(GAMEBOARD_OBJ): $(GAMEBOARD_SRC)
+# Build main executable
+exec: $(OBJ_FILES) $(MAIN_FILE)
+	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o $(EXEC)
+
+# Compile src .cpp to build/*.o
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # ==============================
 # Test Build and Run
 # ==============================
 
-# Run tests (build GTest if needed)
-test: $(TEST_BIN)
+test: gtest $(TEST_BIN)
 	./$(TEST_BIN)
 
-# Build test binary
 $(TEST_BIN): $(TEST_OBJS) $(OBJ_FILES) $(GTEST_LIBS)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) $^ -o $@ -pthread
 
-# Compile test source
-$(TEST_OBJ): $(TEST_SRC)
+# Compile test .cpp to build/test_*.o
+$(BUILD_DIR)/test_%.o: $(TEST_DIR)/%.cpp
+	mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -c $< -o $@
 
-# Build GoogleTest libs
+# ==============================
+# Build GoogleTest (if needed)
+# ==============================
+
+gtest: $(GTEST_LIBS)
+
 $(GTEST_LIBS):
 	mkdir -p $(GTEST_BUILD)
 	cd $(GTEST_BUILD) && cmake .. && make
@@ -69,8 +92,8 @@ $(GTEST_LIBS):
 # ==============================
 
 clean:
-	rm -f $(EXEC) $(TEST_BIN) *.o
+	rm -f $(EXEC) $(TEST_BIN)
+	rm -rf $(BUILD_DIR)
 
-clean-all:
-	rm -f $(EXEC) $(TEST_BIN) *.o
+clean-all: clean
 	rm -rf $(GTEST_BUILD)
