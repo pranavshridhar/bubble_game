@@ -13,7 +13,7 @@ TEST(GameBoardTest, MoveValidity) {
     GameBoard gb(7, 10, 1746386351);
 
     EXPECT_TRUE( gb.validMove(6, 3) );
-    EXPECT_TRUE( gb.validMove(4, 0) );
+    EXPECT_TRUE( gb.validMove(0, 4) );
 
     EXPECT_FALSE( gb.validMove(0, 0) );
 
