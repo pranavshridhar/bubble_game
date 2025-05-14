@@ -6,8 +6,8 @@ class GameBoard {
 private:
 
 	int pop_criteria;
-	int rows;
-	int columns;
+	const int _rows;
+	const int _columns;
 	vector<vector<int>> board;
 
 	void fall(int istart, int j);
@@ -20,6 +20,12 @@ public:
 	GameBoard(int rows, int cols);
 
 	GameBoard(int rows, int cols, unsigned int seed);
+
+	// Retrieves the number of rows in the GameBoard
+	int rows() const { return _rows; }
+
+	// Retrieves the number of columns in the GameBoard
+	int columns() const { return _columns; }
 
 	// Prints the whole gameboard to the screen
 	void dump();
@@ -34,5 +40,5 @@ public:
 	}
 
 	bool validMove(int i, int j);
-
+ 
 };
