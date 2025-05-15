@@ -5,6 +5,7 @@
 #include <numeric>
 
 #include "gameboard.hpp"
+#include "utilities/out_of_bounds.hpp"
 
 
 // PRIVATE FUNCTIONS
@@ -78,6 +79,13 @@ void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& coun
 
 
 bool GameBoard::validMove(int i, int j) {
+	if (
+		i >= _rows || i < 0 ||
+		j >= _columns || j < 0
+	) {
+		throw OutOfBoundsException(i, j);
+	}
+
 	int target = board[i][j];
 	vector<vector<bool>> visit_map (
 		_rows, vector<bool>(_columns, false)

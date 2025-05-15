@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "gameboard.hpp"
+#include "utilities/out_of_bounds.hpp"
 
 
 TEST(GameBoardTest, SizeTest) {
@@ -14,7 +15,16 @@ TEST(GameBoardTest, MoveValidity) {
 
     EXPECT_TRUE( gb.validMove(6, 3) );
     EXPECT_TRUE( gb.validMove(0, 4) );
-
     EXPECT_FALSE( gb.validMove(0, 0) );
 
+    EXPECT_THROW( gb.validMove(-1, -1), OutOfBoundsException);
+}
+
+TEST(GameBoardTest, OutOfBoundsTest) {
+    GameBoard gb(7, 10);
+    EXPECT_THROW( gb.validMove(-1, -1), OutOfBoundsException);
+    EXPECT_THROW( gb.validMove(7, 10), OutOfBoundsException);
+
+    EXPECT_NO_THROW( gb.validMove(0, 0));
+    EXPECT_NO_THROW( gb.validMove(6, 9));
 }
