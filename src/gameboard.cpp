@@ -21,6 +21,23 @@ void GameBoard::fall(int istart, int j) {
 	}
 }
 
+
+void GameBoard::_popper(int i, int j, int target) {
+	if ( (i < 0 || i >= _rows) || 
+		(j < 0 || j >= _columns) 
+	) return;
+
+	if (board[i][j] != target) return;
+
+	board[i][j] = 0;
+
+	_popper(i+1, j, target);
+	_popper(i-1, j, target);
+	_popper(i, j+1, target);
+	_popper(i, j-1, target);
+	
+}
+
 // PUBLIC FUNCTIONS
 /* ------------------- */
 GameBoard::GameBoard(int rows, int cols)
@@ -59,7 +76,6 @@ void GameBoard::gravity() {
 }
 
 void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target) {
-
 	// Base cases: in this EXACT order to avoid segfault
 	if ((i < 0 || i >= _rows) || (j < 0 || j >= _columns) ) return; // current position is out of bounds
 	if (count >= pop_criteria) return; // we have all we need
@@ -96,4 +112,13 @@ bool GameBoard::validMove(int i, int j) {
 	_cell_counter(i, j, visit_map, count, target);
 
 	return count >= pop_criteria;
+}
+
+void GameBoard::pop_bubble(int i, int j) {
+	// Precondition: validmove(i, j) is true
+	// TODO: Throw an exception otherwise
+	// TODO: Make this count how many cells are being popped
+	int target = board[i][j];
+	_popper(i, j, target);
+
 }

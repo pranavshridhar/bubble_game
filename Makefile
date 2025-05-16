@@ -45,17 +45,22 @@ TEST_BIN := test_runner
 # Build Targets
 # ==============================
 
-.PHONY: all build-objects exec test gtest clean clean-all
+.PHONY: all build-objects build test gtest clean clean-all
 
 # Default build
-all: exec
+all: build
 
 # Build object files from src/
 build-objects: $(OBJ_FILES)
 
 # Build main executable
-exec: $(OBJ_FILES) $(MAIN_FILE)
+build: $(OBJ_FILES) $(MAIN_FILE)
 	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o $(EXEC)
+
+debug: CXXFLAGS += -g -O0
+debug: BUILD_TYPE := debug
+debug: $(OBJ_FILES) $(MAIN_FILE)
+	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o bubblepop_debug
 
 # Compile src .cpp to build/*.o
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -94,6 +99,7 @@ $(GTEST_LIBS):
 clean:
 	rm -f $(EXEC) $(TEST_BIN)
 	rm -rf $(BUILD_DIR)
+	rm -rf bubblepop_debug
 
 clean-all: clean
 	rm -rf $(GTEST_BUILD)

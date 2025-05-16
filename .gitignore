@@ -3,3 +3,5 @@ bubblepop
 .vscode
 *.out
 test_runner
+build/
+bubblepop_debug

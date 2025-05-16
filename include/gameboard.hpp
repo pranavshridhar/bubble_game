@@ -14,6 +14,8 @@ private:
 	// bool validMove(int i, int j);
 	void _cell_counter(int i, int j, vector<vector<bool>>& map, int& count, int target);
 
+	void _popper(int i, int j, int target);
+
 public:
 
 	// Constructs a rows x cols gameboard, all with random values
@@ -27,18 +29,19 @@ public:
 	// Retrieves the number of columns in the GameBoard
 	int columns() const { return _columns; }
 
+	int& operator()(int i, int j) {
+		return board[i][j];
+	}
+
 	// Prints the whole gameboard to the screen
 	void dump();
 
 	// Makes all the cells fall down
 	void gravity();
 
-	bool selectCell(int i, int j);
-
-	int& operator()(int i, int j) {
-		return board[i][j];
-	}
-
+	// Checker to see if the cell is allowed to be popped
 	bool validMove(int i, int j);
+
+	void pop_bubble(int i, int j);
  
 };

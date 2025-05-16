@@ -11,11 +11,16 @@ int main() {
 	board.dump();
 	cout << endl;
 
-	cout << "Is i=6 and i=3 a valid move?" << endl;
-	if (board.validMove(6, 3)) {
+	cout << "Is i=6 and i=8 a valid move?" << endl;
+	if (board.validMove(6, 8)) {
 		cout << "Yes it is!" << endl;
 	}
 	cout << endl;
+
+	board.pop_bubble(6, 8);
+	cout << "------ AIRY BOARD ------" << '\n';
+	board.dump();
+
 
 	board.gravity();
 	cout << "------ GRAVITIFIED BOARD ------" << '\n';
