@@ -29,7 +29,8 @@ public:
 	// Retrieves the number of columns in the GameBoard
 	int columns() const { return _columns; }
 
-	int& operator()(int i, int j) {
+	// This is GameBoard() operator
+	int& operator() (int i, int j) {
 		return board[i][j];
 	}
 
@@ -42,6 +43,6 @@ public:
 	// Checker to see if the cell is allowed to be popped
 	bool validMove(int i, int j);
 
-	void pop_bubble(int i, int j);
+	void popBubble(int i, int j);
  
 };

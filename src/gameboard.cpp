@@ -114,7 +114,7 @@ bool GameBoard::validMove(int i, int j) {
 	return count >= pop_criteria;
 }
 
-void GameBoard::pop_bubble(int i, int j) {
+void GameBoard::popBubble(int i, int j) {
 	// Precondition: validmove(i, j) is true
 	// TODO: Throw an exception otherwise
 	// TODO: Make this count how many cells are being popped
