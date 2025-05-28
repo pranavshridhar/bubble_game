@@ -17,7 +17,7 @@ int main() {
 	}
 	cout << endl;
 
-	board.pop_bubble(6, 8);
+	board.popBubble(6, 8);
 	cout << "------ AIRY BOARD ------" << '\n';
 	board.dump();
 
