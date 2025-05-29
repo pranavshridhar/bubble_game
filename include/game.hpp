@@ -1,5 +1,6 @@
 #pragma once
 #include "gameboard.hpp"
+#include <iostream>
 using namespace std;
 
 class Game {
@@ -28,7 +29,7 @@ public:
 	void console_dump();
 
 	~Game() {
-		cout << "Game object commited suicide" << endl;
+		cout << "Bye bye game" << endl;
 	}
 
 
