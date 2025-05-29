@@ -1,5 +1,6 @@
 #pragma once
 #include "gameboard.hpp"
+using namespace std;
 
 class Game {
 private:
@@ -23,6 +24,12 @@ public:
 	void apply_gravity() {
 		gameboard.gravity();
 	};
+
+	void console_dump();
+
+	~Game() {
+		cout << "Game object commited suicide" << endl;
+	}
 
 
 

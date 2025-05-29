@@ -45,4 +45,8 @@ public:
 
 	void popBubble(int i, int j);
 
+	~GameBoard() {
+		cout << "GameBoard object committed suicide" << endl;
+	}
+
 };

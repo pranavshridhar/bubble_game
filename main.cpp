@@ -1,31 +1,36 @@
 #include <iostream>
 #include <unistd.h>
+#include <csignal>
 #include "gameboard.hpp"
+#include "game.hpp"
 
 using namespace std;
 
+atomic<bool> running(true);
+
+void signal_handler(int signum) {
+	cout << "I got interrupted" << endl;
+	running = false;
+}
+
 int main() {
 
-	GameBoard board(7, 10, 1746386351);
-	cout << "------ GENERATED BOARD ------" << '\n';
-	board.dump();
+	signal(SIGINT, signal_handler);
+
+	// GameBoard board(7, 10, 1746386351);
+	Game game(7, 10, 1746386351);
+	cout << " ********* Welcome to the game ********* " << endl;
 	cout << endl;
 
-	cout << "Is i=6 and i=8 a valid move?" << endl;
-	if (board.validMove(6, 8)) {
-		cout << "Yes it is!" << endl;
+	game.console_dump();
+
+	cout << endl;
+
+	while (running) {
+		cout << "This mofo is running" << endl;
+		sleep(1);
 	}
-	cout << endl;
 
-	board.popBubble(6, 8);
-	cout << "------ AIRY BOARD ------" << '\n';
-	board.dump();
-
-
-	board.gravity();
-	cout << "------ GRAVITIFIED BOARD ------" << '\n';
-	board.dump();
-	cout << endl;
 
 	return 0;
 
