@@ -50,6 +50,9 @@ TEST_BIN := test_runner
 # Default build
 all: build
 
+exec:
+	./$(EXEC)
+
 # Build object files from src/
 build-objects: $(OBJ_FILES)
 

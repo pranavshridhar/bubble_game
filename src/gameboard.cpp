@@ -6,6 +6,7 @@
 
 #include "gameboard.hpp"
 #include "utilities/out_of_bounds.hpp"
+#include "utilities/invalid_move.hpp"
 
 
 // PRIVATE FUNCTIONS
@@ -23,8 +24,8 @@ void GameBoard::fall(int istart, int j) {
 
 
 void GameBoard::_popper(int i, int j, int target) {
-	if ( (i < 0 || i >= _rows) || 
-		(j < 0 || j >= _columns) 
+	if ( (i < 0 || i >= _rows) ||
+		(j < 0 || j >= _columns)
 	) return;
 
 	if (board[i][j] != target) return;
@@ -35,7 +36,7 @@ void GameBoard::_popper(int i, int j, int target) {
 	_popper(i-1, j, target);
 	_popper(i, j+1, target);
 	_popper(i, j-1, target);
-	
+
 }
 
 // PUBLIC FUNCTIONS
@@ -116,8 +117,12 @@ bool GameBoard::validMove(int i, int j) {
 
 void GameBoard::popBubble(int i, int j) {
 	// Precondition: validmove(i, j) is true
-	// TODO: Throw an exception otherwise
+	if (!validMove(i, j)) {
+		throw InvalidMoveException(i, j);
+	}
 	// TODO: Make this count how many cells are being popped
+
+
 	int target = board[i][j];
 	_popper(i, j, target);
 

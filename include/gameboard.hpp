@@ -44,5 +44,9 @@ public:
 	bool validMove(int i, int j);
 
 	void popBubble(int i, int j);
- 
+
+	~GameBoard() {
+		cout << "GameBoard object committed suicide" << endl;
+	}
+
 };
