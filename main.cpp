@@ -13,6 +13,14 @@ void signal_handler(int signum) {
 	running = false;
 }
 
+bool input_available() {
+	fd_set fds;
+	FD_ZERO(&fds);
+	FD_SET(STDIN_FILENO, &fds);
+	timeval timeout = {1, 0};  // 1 second
+	return select(STDIN_FILENO + 1, &fds, nullptr, nullptr, &timeout) > 0;
+}
+
 int main() {
 
 	signal(SIGINT, signal_handler);
@@ -30,9 +38,8 @@ int main() {
 		int row, column;
 		cin >> row >> column;
 
-		if (cin.eof() || cin.fail()) {
-			cout << "Input interrupted or invalid. Exiting..." << endl;
-			break;
+		if (!input_available()) {
+			continue;
 		}
 
 		try {

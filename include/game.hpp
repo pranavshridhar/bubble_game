@@ -6,7 +6,7 @@ using namespace std;
 class Game {
 private:
 	GameBoard gameboard;
-	int moves = 0;
+	// int moves = 0;
 
 public:
 
