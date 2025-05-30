@@ -34,9 +34,12 @@ int main() {
 			if (!game.make_move(row, column)) {
 				cout << "This move cannot be made. Please select another cell." << endl;
 			}
+			game.apply_gravity();
 		} catch (const OutOfBoundsException& e) {
 			cout << e.what() << endl;
 		}
+
+		cout << endl;
 	}
 
 

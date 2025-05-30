@@ -1,0 +1,23 @@
+{
+  "name": "C++ Dev Container",
+  "build": {
+    "dockerfile": "../Dockerfile.dev"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "lldb.adapterType": "native"
+      }
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "make gtest",
+  "remoteUser": "root"
+}

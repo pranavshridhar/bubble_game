@@ -1,11 +1,16 @@
-FROM ubuntu:25.10
+FROM ubuntu:22.04
 
-# Install build tools and runtime dependencies
+# Install everything needed for building and debugging
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gdb \
     cmake \
     libgtest-dev \
-    libstdc++6 \
+    git \
+    lldb \
+    lcov \
+    valgrind \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and install GoogleTest
@@ -14,11 +19,5 @@ RUN cd /usr/src/gtest && cmake . && make && cp lib/*.a /usr/lib
 # Set working directory
 WORKDIR /app
 
-# Copy source code into the container
-COPY . .
-
-# Build the project
-RUN make
-
-# Set the entrypoint to run the release executable
-CMD ["./bubblepop"]
+# Default shell
+SHELL ["/bin/bash", "-c"]

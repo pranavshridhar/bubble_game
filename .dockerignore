@@ -1,0 +1,23 @@
+# Binaries
+bubblepop
+bubblepop_debug
+test_runner
+
+# Build folders
+build/
+bubblepop_debug.dSYM/
+
+# Dependency builds
+lib/googletest/build/
+
+# VSCode settings (optional)
+.vscode/
+
+# Mac system files (optional)
+.DS_Store
+
+# Editor swap/temp files
+*.swp
+*.swo
+*.bak
+*.tmp
