@@ -3,22 +3,14 @@
 #include <csignal>
 #include "gameboard.hpp"
 #include "game.hpp"
-#include <utilities/out_of_bounds.hpp>
+#include "utilities/out_of_bounds.hpp"
 using namespace std;
 
 atomic<bool> running(true);
 
 void signal_handler(int signum) {
-	cout << "I got interrupted" << endl;
-	running = false;
-}
-
-bool input_available() {
-	fd_set fds;
-	FD_ZERO(&fds);
-	FD_SET(STDIN_FILENO, &fds);
-	timeval timeout = {1, 0};  // 1 second
-	return select(STDIN_FILENO + 1, &fds, nullptr, nullptr, &timeout) > 0;
+	cout << "Exiting..." << endl;
+	exit(0);
 }
 
 int main() {
@@ -32,15 +24,11 @@ int main() {
 
 	cout << endl << endl;
 
-	while (running) {
+	while (true) {
 		game.console_dump();
 		cout << "Input row and column (in that order, zero indexed, separated by space) > ";
 		int row, column;
 		cin >> row >> column;
-
-		if (!input_available()) {
-			continue;
-		}
 
 		try {
 			if (!game.make_move(row, column)) {
