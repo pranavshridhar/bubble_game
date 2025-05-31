@@ -46,8 +46,6 @@ public:
 
 	void popBubble(int i, int j);
 
-	~GameBoard() {
-		cout << "Bye bye GameBoard";
-	}
+	~GameBoard() {}
 
 };

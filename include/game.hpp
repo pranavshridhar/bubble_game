@@ -28,10 +28,6 @@ public:
 
 	void console_dump();
 
-	~Game() {
-		cout << "Bye bye game" << endl;
-	}
-
-
+	~Game() {}
 
 };
