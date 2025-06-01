@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 using namespace std; // FIXME: Take this away in later builds
 
 class GameBoard {
@@ -45,8 +46,6 @@ public:
 
 	void popBubble(int i, int j);
 
-	~GameBoard() {
-		cout << "GameBoard object committed suicide" << endl;
-	}
+	~GameBoard() {}
 
 };

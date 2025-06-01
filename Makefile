@@ -60,11 +60,6 @@ build-objects: $(OBJ_FILES)
 build: $(OBJ_FILES) $(MAIN_FILE)
 	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o $(EXEC)
 
-debug: CXXFLAGS += -g -O0
-debug: BUILD_TYPE := debug
-debug: $(OBJ_FILES) $(MAIN_FILE)
-	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o bubblepop_debug
-
 # Compile src .cpp to build/*.o
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p $(BUILD_DIR)
@@ -74,9 +69,20 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 # Test Build and Run
 # ==============================
 
+test: CXXFLAGS += -g -O0
 test: gtest $(TEST_BIN)
 	./$(TEST_BIN)
 
+test_build: CXXFLAGS += -g -O0
+test_build: gtest $(TEST_BIN)
+
+$(TEST_BIN): $(TEST_OBJS) $(OBJ_FILES) $(GTEST_LIBS)
+	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) $^ -o $@ -pthread
+
+# Compile test .cpp to build/test_%.o
+$(BUILD_DIR)/test_%.o: $(TEST_DIR)/%.cpp
+	mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) -c $< -o $@
 $(TEST_BIN): $(TEST_OBJS) $(OBJ_FILES) $(GTEST_LIBS)
 	$(CXX) $(CXXFLAGS) $(GTEST_INCLUDE) $^ -o $@ -pthread
 

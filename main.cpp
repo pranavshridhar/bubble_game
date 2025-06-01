@@ -3,14 +3,14 @@
 #include <csignal>
 #include "gameboard.hpp"
 #include "game.hpp"
-
+#include "utilities/out_of_bounds.hpp"
 using namespace std;
 
 atomic<bool> running(true);
 
 void signal_handler(int signum) {
-	cout << "I got interrupted" << endl;
-	running = false;
+	cout << "Exiting..." << endl;
+	exit(0);
 }
 
 int main() {
@@ -22,13 +22,24 @@ int main() {
 	cout << " ********* Welcome to the game ********* " << endl;
 	cout << endl;
 
-	game.console_dump();
+	cout << endl << endl;
 
-	cout << endl;
+	while (true) {
+		game.console_dump();
+		cout << "Input row and column (in that order, zero indexed, separated by space) > ";
+		int row, column;
+		cin >> row >> column;
 
-	while (running) {
-		cout << "This mofo is running" << endl;
-		sleep(1);
+		try {
+			if (!game.make_move(row, column)) {
+				cout << "This move cannot be made. Please select another cell." << endl;
+			}
+			game.apply_gravity();
+		} catch (const OutOfBoundsException& e) {
+			cout << e.what() << endl;
+		}
+
+		cout << endl;
 	}
 
 

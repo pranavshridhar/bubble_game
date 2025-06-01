@@ -4,4 +4,4 @@ bubblepop
 *.out
 test_runner
 build/
-bubblepop_debug
+bubblepop_debug*
