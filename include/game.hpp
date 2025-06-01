@@ -5,29 +5,36 @@ using namespace std;
 
 class Game {
 private:
-	GameBoard gameboard;
-	// int moves = 0;
+    int _rows;
+    int _columns;
+    GameBoard gameboard;
 
 public:
+    // ===============
+    //  Constructors
+    // ===============
 
-	// ===============
-	//  Constructors
-	// ===============
+    // Initializes a 7x10 board by default
+    Game()
+			: _rows(7), _columns(10), gameboard(GameBoard(7, 10)) {}
 
-	// Initializes a 7x10 board by default
-	Game() : gameboard(GameBoard(7, 10)) {};
-	Game(int rows, int cols) : gameboard(GameBoard(rows, cols)) {};
-	Game(int rows, int cols, unsigned int seed) : gameboard( GameBoard(rows, cols, seed)) {};
+    Game(int rows, int cols)
+			: _rows(rows), _columns(cols), gameboard(GameBoard(rows, cols)) {}
 
+    Game(int rows, int cols, unsigned int seed)
+      : _rows(rows), _columns(cols), gameboard(GameBoard(rows, cols, seed)) {}
 
-	bool make_move(int i, int j);
+    int rows() const {return _rows;}
 
-	void apply_gravity() {
-		gameboard.gravity();
-	};
+    int columns() const {return _columns;}
 
-	void console_dump();
+    bool make_move(int i, int j);
 
-	~Game() {}
+    void apply_gravity() {
+			gameboard.gravity();
+    }
 
+    void console_dump();
+
+    ~Game() {}
 };

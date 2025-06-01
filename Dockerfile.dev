@@ -1,23 +1,16 @@
 FROM ubuntu:22.04
 
-# Install everything needed for building and debugging
 RUN apt-get update && apt-get install -y \
     build-essential \
-    gdb \
     cmake \
+    gdb \
     libgtest-dev \
     git \
-    lldb \
-    lcov \
-    valgrind \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
-# Build and install GoogleTest
 RUN cd /usr/src/gtest && cmake . && make && cp lib/*.a /usr/lib
 
-# Set working directory
-WORKDIR /app
+WORKDIR /workspaces/bubblegame
 
-# Default shell
 SHELL ["/bin/bash", "-c"]
