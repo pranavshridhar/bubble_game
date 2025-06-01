@@ -60,11 +60,6 @@ build-objects: $(OBJ_FILES)
 build: $(OBJ_FILES) $(MAIN_FILE)
 	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o $(EXEC)
 
-debug: CXXFLAGS += -g -O0
-debug: BUILD_TYPE := debug
-debug: $(OBJ_FILES) $(MAIN_FILE)
-	$(CXX) $(CXXFLAGS) $(MAIN_FILE) $(OBJ_FILES) -o bubblepop_debug
-
 # Compile src .cpp to build/*.o
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p $(BUILD_DIR)
