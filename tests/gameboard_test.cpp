@@ -47,5 +47,12 @@ TEST(GameBoardTest, PopValidity) {
     ASSERT_TRUE(gb.validMove(0, 0));
 
     gb.popBubble(0, 0);
-    ASSERT_TRUE(gb.validMove(0, 0));
+
+    for (int i = 0; i < 4; i++) {
+        EXPECT_EQ(0, gb(0, i)) << "Bubble at (0, " << i << "), whose value is " << gb(0, i) << " was not popped as expected.";
+    }
+
+
+    ASSERT_FALSE(gb.validMove(0, 0));
+    ASSERT_THROW(gb.popBubble(0, 0), InvalidMoveException);
 }
