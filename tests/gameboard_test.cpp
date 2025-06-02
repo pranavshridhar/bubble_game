@@ -54,4 +54,5 @@ TEST(GameBoardTest, PopValidity) {
 
 
     ASSERT_FALSE(gb.validMove(0, 0));
+    ASSERT_THROW(gb.popBubble(0, 0), InvalidMoveException);
 }
