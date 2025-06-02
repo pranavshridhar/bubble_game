@@ -80,6 +80,7 @@ void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& coun
 	// Base cases: in this EXACT order to avoid segfault
 	if ((i < 0 || i >= _rows) || (j < 0 || j >= _columns) ) return; // current position is out of bounds
 	if (count >= pop_criteria) return; // we have all we need
+	if (board[i][j] == 0) return; // A popped bubble cannot be popped
 	if (board[i][j] != target) return; // this is not a cell to pop
 	if (map[i][j] == true) return; // if we have already visited cell
 
