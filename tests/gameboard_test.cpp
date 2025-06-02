@@ -30,8 +30,7 @@ TEST(GameBoardTest, OutOfBoundsTest) {
     EXPECT_NO_THROW( gb.validMove(6, 9));
 }
 
-// TODO: Expand on this, make popping more testable.
-TEST(GameBoardTest, PopTest) {
+TEST(GameBoardTest, PopException) {
     // Test for exceptions first
     GameBoard gb(7, 10, 1746386351);
 
@@ -40,4 +39,13 @@ TEST(GameBoardTest, PopTest) {
     EXPECT_THROW( gb.popBubble(0, 4), InvalidMoveException);
     EXPECT_THROW( gb.popBubble(6, 5), InvalidMoveException);
 
+}
+
+TEST(GameBoardTest, PopValidity) {
+    GameBoard gb(7, 10, 1746386351);
+
+    ASSERT_TRUE(gb.validMove(0, 0));
+
+    gb.popBubble(0, 0);
+    ASSERT_TRUE(gb.validMove(0, 0));
 }
