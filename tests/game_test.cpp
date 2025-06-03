@@ -7,3 +7,7 @@ TEST(GameTest, SizeTest) {
 	EXPECT_EQ(7, gb.rows());
 	EXPECT_EQ(10, gb.columns());
 }
+
+TEST(GameTest, MoveCountTest) {
+	GameBoard gb(7, 10, 1746386351);
+}

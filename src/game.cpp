@@ -2,10 +2,11 @@
 #include <iostream>
 
 bool Game::make_move(int i, int j) {
-	if (!gameboard.validMove(i, j)) {
+  if (!gameboard.validMove(i, j)) {
 		return false;
 	}
 	gameboard.popBubble(i, j);
+	_moves++;
 	return true;
 }
 

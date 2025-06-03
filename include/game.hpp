@@ -7,6 +7,7 @@ class Game {
 private:
 		int _rows;
 		int _columns;
+		int _moves = 0;
 		GameBoard gameboard;
 
 public:
@@ -26,21 +27,30 @@ public:
 		Game(int rows, int cols, unsigned int seed)
 			: _rows(rows), _columns(cols), gameboard(GameBoard(rows, cols, seed)) {}
 
-
-		int rows() const {
-			return _rows;
+		// Returns the number of moves made in the game
+		int moves() {
+			return _moves;
 		}
 
+		// Returns the number of rows the GameBoard has
+		int rows() const {
+			return _rows; // Number caching to avoid overhead of function call
+		}
+
+		// Returns the number of columns the GameBoard has
 		int columns() const {
 			return _columns;
 		}
 
+		// Applies all-at-once gravity to the gameboard
 		void apply_gravity() {
 			gameboard.gravity();
 		}
 
+		// Selects a cell on the gameboard for popping if valid
 		bool make_move(int i, int j);
 
+		// Dumps the contents of the board to STDOUT
 		void console_dump();
 
 		~Game() {}
