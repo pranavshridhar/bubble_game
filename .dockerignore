@@ -1,0 +1,3 @@
+test_runner/
+build/
+lib/googletest/build
