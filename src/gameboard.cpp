@@ -1,9 +1,6 @@
 #include <iostream>
-#include <cstdlib>
 #include <ctime>
-#include <algorithm>
-#include <numeric>
-
+#include <random>
 #include "gameboard.hpp"
 #include "utilities/out_of_bounds.hpp"
 #include "utilities/invalid_move.hpp"
@@ -46,11 +43,13 @@ GameBoard::GameBoard(int rows, int cols)
 
 GameBoard::GameBoard(int rows, int cols, unsigned int seed) : _rows(rows), _columns(cols) {
 	pop_criteria = 3; // FIXME: Just for starters. Change later on.
-	srand(seed);
 	board = vector<vector<int>>(rows, vector<int>(cols));
+
+	mt19937 mt(seed); // RNG for consistency across platforms
+
 	for(vector<int>& row : board) {
 		for(int& element : row) {
-			element = (rand() % 4) + 1;
+			element = (mt() % 4) + 1;
 		}
 	}
 }
@@ -80,6 +79,7 @@ void GameBoard::_cell_counter(int i, int j, vector<vector<bool>>& map, int& coun
 	// Base cases: in this EXACT order to avoid segfault
 	if ((i < 0 || i >= _rows) || (j < 0 || j >= _columns) ) return; // current position is out of bounds
 	if (count >= pop_criteria) return; // we have all we need
+	if (board[i][j] == 0) return; // A popped bubble cannot be popped
 	if (board[i][j] != target) return; // this is not a cell to pop
 	if (map[i][j] == true) return; // if we have already visited cell
 
