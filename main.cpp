@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <csignal>
+#include <atomic>
 #include "gameboard.hpp"
 #include "game.hpp"
 #include "utilities/out_of_bounds.hpp"

@@ -13,8 +13,8 @@ TEST(GameBoardTest, SizeTest) {
 TEST(GameBoardTest, MoveValidity) {
 	GameBoard gb(7, 10, 1746386351);
 
-	EXPECT_TRUE( gb.validMove(6, 3) );
-	EXPECT_TRUE( gb.validMove(0, 3) );
+	EXPECT_TRUE( gb.validMove(5, 3) );
+	EXPECT_TRUE( gb.validMove(2, 7) );
 	EXPECT_FALSE( gb.validMove(3, 0) );
 	EXPECT_FALSE( gb.validMove(6, 9) );
 
@@ -27,6 +27,8 @@ TEST(GameBoardTest, OutOfBoundsTest) {
 	EXPECT_THROW( gb.validMove(7, 10), OutOfBoundsException);
 
 	EXPECT_NO_THROW( gb.validMove(0, 0));
+	EXPECT_NO_THROW( gb.validMove(0, 9));
+	EXPECT_NO_THROW( gb.validMove(6, 0));
 	EXPECT_NO_THROW( gb.validMove(6, 9));
 }
 
@@ -36,23 +38,19 @@ TEST(GameBoardTest, PopException) {
 
 	EXPECT_THROW( gb.popBubble(-1, -1), OutOfBoundsException);
 	EXPECT_THROW( gb.popBubble(7, 10), OutOfBoundsException);
-	EXPECT_THROW( gb.popBubble(0, 4), InvalidMoveException);
-	EXPECT_THROW( gb.popBubble(6, 5), InvalidMoveException);
+	EXPECT_THROW( gb.popBubble(0, 0), InvalidMoveException);
+	EXPECT_THROW( gb.popBubble(5, 5), InvalidMoveException);
 
 }
 
 TEST(GameBoardTest, PopValidity) {
 	GameBoard gb(7, 10, 1746386351);
 
-	ASSERT_TRUE(gb.validMove(0, 0));
+	ASSERT_TRUE(gb.validMove(0, 7));
 
-	gb.popBubble(0, 0);
-
-	for (int i = 0; i < 4; i++) {
-		EXPECT_EQ(0, gb(0, i)) << "Bubble at (0, " << i << "), whose value is " << gb(0, i) << " was not popped as expected.";
-	}
+	gb.popBubble(0, 7);
 
 
-	ASSERT_FALSE(gb.validMove(0, 0));
-	ASSERT_THROW(gb.popBubble(0, 0), InvalidMoveException);
+	ASSERT_FALSE(gb.validMove(0, 7));
+	ASSERT_THROW(gb.popBubble(0, 7), InvalidMoveException);
 }

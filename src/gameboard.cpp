@@ -1,9 +1,6 @@
 #include <iostream>
-#include <cstdlib>
 #include <ctime>
-#include <algorithm>
-#include <numeric>
-
+#include <random>
 #include "gameboard.hpp"
 #include "utilities/out_of_bounds.hpp"
 #include "utilities/invalid_move.hpp"
@@ -46,11 +43,13 @@ GameBoard::GameBoard(int rows, int cols)
 
 GameBoard::GameBoard(int rows, int cols, unsigned int seed) : _rows(rows), _columns(cols) {
 	pop_criteria = 3; // FIXME: Just for starters. Change later on.
-	srand(seed);
 	board = vector<vector<int>>(rows, vector<int>(cols));
+
+	mt19937 mt(seed); // RNG for consistency across platforms
+
 	for(vector<int>& row : board) {
 		for(int& element : row) {
-			element = (rand() % 4) + 1;
+			element = (mt() % 4) + 1;
 		}
 	}
 }
