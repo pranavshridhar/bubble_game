@@ -20,10 +20,7 @@ jobs:
         sudo apt-get install -y build-essential cmake clang g++ libgtest-dev
 
     - name: Build
-      run: make
+      run: make build
 
     - name: Run tests
-      run: make check
-
-    - name: Distcheck
-      run: make distcheck
+      run: make test
